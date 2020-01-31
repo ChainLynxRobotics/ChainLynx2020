@@ -12,7 +12,6 @@ import static frc.robot.Ports.*;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation;
-// import com.analog.adis16448.frc.ADIS16448_IMU; // Gyro import, leave in
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,7 +29,6 @@ public class Robot extends TimedRobot {
    double getMatchTime() {
      return matchTime;
    }
- 
 
   public final DriveTrain driveTrain = new DriveTrain(LEFT_DRIVETRAIN_1, LEFT_DRIVETRAIN_2, RIGHT_DRIVETAIN_1,
       RIGHT_DRIVETAIN_2, GYRO_PORT);
@@ -42,6 +40,10 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     CameraServer.getInstance().startAutomaticCapture();
     CameraServer.getInstance().startAutomaticCapture();
+    joystick1.addButton(1, driveTrain::setThrottleDirectionConstant);// flips heading
+    joystick1.addButton(3, driveTrain::togglethrottleMode);// Switches throttlemode
+    joystick1.addButton(4, driveTrain::stopDriveMotors, driveTrain::restartDriveMotors);;
+    joystick2.addButton(1, driveTrain::stopDriveMotors, driveTrain::restartDriveMotors);
   }
   @Override
   public void robotPeriodic() {
@@ -67,7 +69,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-      //Hey this is fun
     // joystick1.listen();
     // joystick2.listen();
   }
@@ -76,19 +77,19 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     isDriverControlling = true;
+    joystick1.listen();
+    joystick2.listen();
   }
 
   @Override
   public void teleopPeriodic() {
     joystick1.listen();
     joystick2.listen();
+
     endgameInit = (30 >= matchTime) ? true : false;
     if (endgameInit = true) {
 
-    }
-    
-
-    
+    }    
   }
 
   @Override
