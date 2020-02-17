@@ -24,6 +24,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
+  //Creates an instance of the drivetrain subsystem
   private DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
 
   private static final String kDefaultAuto = "Default";
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  //Creates a joystick instance
   private Joystick driveStick = new Joystick(0);
 
   /**
@@ -99,9 +101,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    //Reads X and Y values from the joystick
     double throttle = driveStick.getY();
     double turn = driveStick.getX();
 
+    //Makes driving the default command for the drivetrain and feeds in joystick values
     drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.drive(throttle, turn), drivetrain));
   }
 
