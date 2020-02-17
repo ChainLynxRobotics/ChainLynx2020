@@ -105,8 +105,8 @@ public class Robot extends TimedRobot {
     double throttle = driveStick.getY();
     double turn = driveStick.getX();
 
-    //Makes driving the default command for the drivetrain and feeds in joystick values
-    drivetrain.setDefaultCommand(new RunCommand(() -> drivetrain.drive(throttle, turn), drivetrain));
+    //Feeds the drive function with joystick values
+    drivetrain.drive(throttle, turn);
   }
 
   /**
