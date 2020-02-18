@@ -11,4 +11,10 @@ public class Constants {
     public static final int kLeftDriveBack = 15;
     public static final int kRightDriveFront = 3;
     public static final int kRightDriveBack = 0;
+
+    //Ramp
+    public static final int kRampMotor = 6977777;
+
+    //Joystick buttons
+    public static final int kOuttakeButton = 2;
 }

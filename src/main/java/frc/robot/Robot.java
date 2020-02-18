@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.RampSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +27,7 @@ import frc.robot.subsystems.DrivetrainSubsystem;
 public class Robot extends TimedRobot {
   //Creates an instance of the drivetrain subsystem
   private DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+  private RampSubsystem ramp = new RampSubsystem();
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
@@ -104,9 +106,16 @@ public class Robot extends TimedRobot {
     //Reads X and Y values from the joystick
     double throttle = driveStick.getY();
     double turn = driveStick.getX();
+    boolean isOuttakePressed = driveStick.getRawButton(Constants.kOuttakeButton);
 
     //Feeds the drive function with joystick values
     drivetrain.drive(throttle, turn);
+    if (isOuttakePressed) {
+      ramp.setPower(0.5);
+    }
+    else {
+      ramp.setPower(0);
+    }
   }
 
   /**
