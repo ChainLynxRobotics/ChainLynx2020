@@ -7,8 +7,8 @@ package frc.robot;
 public class Constants {
 
     //Drivetrain
-    public static final int kLeftDriveFrontPWM = 0; //Placeholder, change to actual PWM port
-    public static final int kLeftDriveBackPWM = 1;
-    public static final int kRightDriveFrontPWM = 2;
-    public static final int kRightDriveBackPWM = 3;
+    public static final int kLeftDriveFront = 12; //Placeholder, change to actual PWM port
+    public static final int kLeftDriveBack = 15;
+    public static final int kRightDriveFront = 3;
+    public static final int kRightDriveBack = 0;
 }

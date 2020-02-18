@@ -10,7 +10,6 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -19,18 +18,20 @@ import frc.robot.Constants;
  * This includes talking to motor controller and driving logic
  */
 public class DrivetrainSubsystem extends SubsystemBase {
-  private VictorSP leftDriveFront, leftDriveBack;
-  private VictorSP rightDriveFront, rightDriveBack;
+  private WPI_VictorSPX leftDriveFront, leftDriveBack;
+  private WPI_VictorSPX rightDriveFront, rightDriveBack;
 
   private SpeedControllerGroup left, right;
+
+  private DifferentialDrive drive;
 
   //Constructs DrivetrainSubsystem
   public DrivetrainSubsystem() {
     //Sets motor controllers to PWM ports specified in Constants
-    leftDriveFront = new VictorSP(Constants.kLeftDriveFrontPWM);
-    leftDriveBack = new VictorSP(Constants.kLeftDriveBackPWM);
-    rightDriveFront = new VictorSP(Constants.kRightDriveFrontPWM);
-    rightDriveBack = new VictorSP(Constants.kRightDriveBackPWM);
+    leftDriveFront = new WPI_VictorSPX(Constants.kLeftDriveFront);
+    leftDriveBack = new WPI_VictorSPX(Constants.kLeftDriveBack);
+    rightDriveFront = new WPI_VictorSPX(Constants.kRightDriveFront);
+    rightDriveBack = new WPI_VictorSPX(Constants.kRightDriveBack);
 
     //Creates a group of motor controllers, makes things easier
     left = new SpeedControllerGroup(leftDriveFront, leftDriveBack);
@@ -38,6 +39,9 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     //Left and right side will spin in opposite directions when positive power is applied if not inverted
     right.setInverted(true);
+
+    drive = new DifferentialDrive(left, right);
+    drive.setRightSideInverted(true);
   }
   
   @Override
@@ -49,9 +53,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * Basic arcade drive, feed in joystick inputs
    */
   public void drive(double throttle, double turn){
-    double leftPower = throttle + turn;
-    double rightPower = throttle - turn;
-    setPower(leftPower, rightPower);
+    drive.arcadeDrive(throttle, turn, true);
   }
 
   /**
