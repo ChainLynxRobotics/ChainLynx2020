@@ -38,7 +38,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     right = new SpeedControllerGroup(rightDriveFront, rightDriveBack);
 
     //Left and right side will spin in opposite directions when positive power is applied if not inverted
-    right.setInverted(true);
+    // right.setInverted(true);
 
     drive = new DifferentialDrive(left, right);
     drive.setRightSideInverted(true);
