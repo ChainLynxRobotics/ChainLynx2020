@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
+  private static final String kLeftStartingPosition = "Left Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -45,6 +46,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.addOption("Left Auto",kLeftStartingPosition);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -82,15 +84,32 @@ public class Robot extends TimedRobot {
    * This function is called periodically during autonomous.
    */
   @Override
-  public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
+  public void autonomousPeriodic(kLeftStartingPosition)
+    switch() {
+     case   
         break;
-      case kDefaultAuto:
       default:
-        // Put default auto code here
+        
+    }
+  
+  public void autonomousPeriodic()
+    switch() {
+     case   
         break;
+      default:
+        
+    }
+  
+  public void autonomousPeriodic(kCustomAuto) {
+     switch (m_autoSelected) {
+      (time < 15):
+        case ;
+        //placeholder numbers
+     SpeedControllerGroup left(.20)
+SpeedControllerGroup right(-.20)
+        break;
+      
+    }
     }
   }
 
