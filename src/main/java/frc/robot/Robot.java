@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +32,8 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private Command m_autoCommand;
 
   //Creates a joystick instance
   private Joystick driveStick = new Joystick(0);
@@ -77,6 +78,27 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        m_autoCommand = new SequentialCommandGroup(
+          new RunCommand(() -> {
+            drivetrain.setPower(0.5, 0.5);
+          }, drivetrain).withTimeout(5.0),
+          new RunCommand(() -> {
+            ramp.setPower(0.7)
+          }).withTimeout(3.0);
+        )
+        break;
+      case kDefaultAuto:
+      default:
+        // Put default auto code here
+        break;
+    }
+
+    if (m_autoCommand != null) {
+      m_autoCommand.schedule();
+    }
   }
 
   /**
@@ -84,19 +106,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+    
   }
 
   @Override
   public void teleopInit() {
+    if (m_autoCommand != null) {
+      m_autoCommand.cancel();
+    }
   }
 
   /**
