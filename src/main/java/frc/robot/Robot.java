@@ -9,7 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,9 +30,10 @@ public class Robot extends TimedRobot {
 
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
-  private static final String kLeftStartingPosition = "Left Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
+  private Command m_autoCommand;
 
   //Creates a joystick instance
   private Joystick driveStick = new Joystick(0);
@@ -46,7 +46,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    m_chooser.addOption("Left Auto",kLeftStartingPosition);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -78,43 +77,42 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        m_autoCommand = new SequentialCommandGroup(
+          new RunCommand(() -> {
+            drivetrain.setPower(0.5, 0.5);
+          }, drivetrain).withTimeout(5.0),
+          new RunCommand(() -> {
+            ramp.setPower(0.7)
+          }).withTimeout(3.0);
+        )
+        break;
+      case kDefaultAuto:
+      default:
+        // Put default auto code here
+        break;
+    }
+
+    if (m_autoCommand != null) {
+      m_autoCommand.schedule();
+    }
   }
 
   /**
    * This function is called periodically during autonomous.
    */
   @Override
-  public void autonomousPeriodic(kLeftStartingPosition)
-    switch() {
-     case   
-        break;
-      default:
-        
-    }
-  
-  public void autonomousPeriodic()
-    switch() {
-     case   
-        break;
-      default:
-        
-    }
-  
-  public void autonomousPeriodic(kCustomAuto) {
-     switch (m_autoSelected) {
-      (time < 15):
-        case ;
-        //placeholder numbers
-     SpeedControllerGroup left(.20)
-SpeedControllerGroup right(-.20)
-        break;
-      
-    }
-    }
+  public void autonomousPeriodic() {
+    
   }
 
   @Override
   public void teleopInit() {
+    if (m_autoCommand != null) {
+      m_autoCommand.cancel();
+    }
   }
 
   /**
