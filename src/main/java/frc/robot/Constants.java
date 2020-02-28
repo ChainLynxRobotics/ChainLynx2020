@@ -8,7 +8,7 @@ public class Constants {
 
     //Drivetrain Ports
     public static final int kLeftDriveFront = 1; 
-    public static final          int kLeftDriveBack = 2;
+    public static final int kLeftDriveBack = 2;
     public static final int kRightDriveFront = 4;
     public static final int kRightDriveBack = 3;
 
