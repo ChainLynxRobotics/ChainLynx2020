@@ -1,6 +1,7 @@
 package frc.robot;
 //this is a test
 
+<<<<<<< Updated upstream
 // import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -10,6 +11,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 // import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.*;
 // import edu.wpi.first.wpilibj.interfaces.Gyro;
+=======
+import java.sql.Time;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.Timer;
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.LambdaJoystick.ThrottlePosition;
@@ -25,13 +34,25 @@ import frc.robot.LambdaJoystick.ThrottlePosition;
 //import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets.kGyro;
 
 public class DriveTrain {
+<<<<<<< Updated upstream
 
+=======
+    //private final VictorSPX spitterWheel;
+>>>>>>> Stashed changes
     private final VictorSPX leftMotor1;
     private final VictorSPX rightMotor1;
     private final VictorSPX leftMotor2;
     private final VictorSPX rightMotor2;
     private final Encoder enco;
     // public ADIS16448_IMU gyro;
+<<<<<<< Updated upstream
+=======
+
+   
+    public double throttleInput;
+    public double VelocityCheck;
+    public double speedbrake;
+>>>>>>> Stashed changes
 
     private boolean throttleMode = true;// formally slowSpeed, side not we're calling the default spped baby mode,
                                         // outreach mode, or rookie mode
@@ -167,6 +188,7 @@ public class DriveTrain {
         SmartDashboard.putNumber("raw data/Xraw", throttlePosition.x);
         SmartDashboard.putNumber("raw data/Yraw", throttlePosition.y);
         SmartDashboard.putNumber("raw data/Zraw", throttlePosition.z);
+<<<<<<< Updated upstream
         SmartDashboard.putBoolean("Alarms/VNE", velocityNeverToExcede);
         SmartDashboard.putBoolean("Alarms/V1", velocityToTurn);
         SmartDashboard.putBoolean("status/RobotArmed", masterSafteyOff);
@@ -176,6 +198,12 @@ public class DriveTrain {
         // (throttleMode ? (throttle2) : 0.40 );
         scaledX = (scaledX * 0.5 * (throttleMode ? (throttle2) : 0.70));
         scaledY = scaledY * throttleDirectionConstant * (throttleMode ? (throttle2) : 0.70);
+=======
+       
+
+        scaledX = (scaledX * 0.5 * ( (throttle2)));
+        scaledY = scaledY * throttleDirectionConstant *(throttle2);
+>>>>>>> Stashed changes
 
         // if (throttleMode == false) {
         // scaledX = scaledX * (drivingOffSpeed ? 0.27 : (throttle1+1.00));//note to
@@ -184,8 +212,14 @@ public class DriveTrain {
         // scaledY = scaledY * (drivingOffSpeed ? 0.40 : (throttle1+1.00));
         // }
 
+<<<<<<< Updated upstream
         final double right = ((-scaledX - scaledY) * -1);// +throttlePosition.z; //why plus throttle z?
         final double left = (scaledY - scaledX) * -1;
+=======
+       final double right = ((-scaledX - scaledY) * -1 - (auto ==false ? (0.0) : 0.05));
+       // +throttlePosition.z; //why plus throttle z?//dunno, just leave it for now
+       final double left = (scaledY - scaledX)* -1 + (auto ==false ? (0.0) : 0.05);
+>>>>>>> Stashed changes
 
         leftMotor1.set(ControlMode.PercentOutput, left);
         leftMotor2.follow(leftMotor1);
@@ -193,6 +227,7 @@ public class DriveTrain {
         rightMotor2.follow(rightMotor1);
     }
 
+<<<<<<< Updated upstream
     // it is now safe to touch stuff
 
     public void autoUpdateSpeed(double left, double right) {
@@ -219,6 +254,64 @@ public class DriveTrain {
         System.out.println(encoderPositionLeft);
         int encoderPositionRight = rightMotor1.getSelectedSensorPosition();
         System.out.println(encoderPositionRight);
+=======
+    public void autoUpdateSpeed() {
+        //if (int i = n; i < 10; i++){
+        leftMotor1.set(ControlMode.PercentOutput, 0.2);
+        rightMotor1.set(ControlMode.PercentOutput, -0.2);
+        leftMotor2.follow(leftMotor1);
+        rightMotor2.follow(rightMotor1);
+        
+        //Second Starting Position for auto under here
+        
+        //First: Making the robot turn right, IDK if these speed settings will work.
+        //We need some trial and error.
+        //We also need to keep in mind that we only have 15 seconds for the robot to: 
+        //turn, drive up to the goal, and score.
+
+        leftMotor1.set(ControlMode.PercentOutput, 0.4);
+        rightMotor1.set(ControlMode.PercentOutput, 0.0);
+        leftMotor2.follow(leftMotor1);
+        rightMotor2.follow(rightMotor1);
+
+        //Next Step: moving forward. I'm giving us 5 sec to turn and 5 sec to drive forward and 5 sec to score.
+        //I don't know if this works. Numbers will have to be adjusted. There's probably a better way to do this.
+        //maybe it would be better to move forward half way, turn, move in frount of the goal, turn, 
+        //move forward the rest of the way that way if robots are scoring on the higher goals we can 
+        //make sure we won't run into them?
+        //Would this have to be put under "public void autonomousPeriodic() {" in robot.java?
+        
+        double autoRemainingTime = Timer.getMatchTime();
+        if (autoRemainingTime <= 10 && autoRemainingTime >= 5 ){ //does the <= 10 >= 5 thing work?
+            leftMotor1.set(ControlMode.PercentOutput, 0.3);
+            rightMotor1.set(ControlMode.PercentOutput, -0.3);
+            leftMotor2.follow(leftMotor1); //do we have to include this again?
+            rightMotor2.follow(rightMotor1);
+        
+        }else if(autoRemainingTime <= 5)
+        leftMotor1.set(ControlMode.PercentOutput, 0.);
+        rightMotor1.set(ControlMode.PercentOutput, -0);
+
+        }
+
+        //From here we can just let autoPeriodic code kick in to run the ball spitter, right?
+        // */
+        //}
+        //BallSpitter.set(ControlMode.PercentOutput, 0.1);
+
+    
+    public void dateSpeed() {
+        //sets speed back to 0 after the use of autoUpdateSpeed
+        leftMotor1.set(ControlMode.PercentOutput, 0);
+        rightMotor1.set(ControlMode.PercentOutput, 0);
+        leftMotor2.follow(leftMotor1);
+        rightMotor2.follow(rightMotor1);
+    }
+   
+
+    public void startAuto() {
+        autoUpdateSpeed(); 
+>>>>>>> Stashed changes
     }
 
     public void togglethrottleMode() {

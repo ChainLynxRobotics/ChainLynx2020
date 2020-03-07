@@ -1,7 +1,8 @@
 package frc.robot;
 
-
+//As of 2/29/20 these constants are all confined to the Constants section of the code
 public class Constants {
+    
     // Distances
     public static final int WHEEL_DIAMETER_INCHES = 6;
     public static final double WHEEL_BASE_WIDTH_FEET = 2.25;
